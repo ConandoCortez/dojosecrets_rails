@@ -1,0 +1,53 @@
+<% content_for :left_column do %>
+<div class="container">
+    <h1>Hello <%= @user.name %></h1>
+    <a href="/sessions/logout" class="btn btn-primary">Logout</a>
+    <a href="/users/<%=@user.id%>/edit" class="btn btn-primary">Edit Profile</a>
+</div>
+<% end %>
+
+<% content_for :right_column do %>
+<div class="container">
+    <h1>Post Secrets</h1>
+    <%if flash[:errors] %>
+        <%flash[:errors].each do |error| %>
+            <p class="alert alert-danger"><%= error %></p>
+        <% end %>
+    <% end %>
+    <form action="/users/<%=@user.id%>/secrets/add" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <div class="form-group row">
+            <label for="content" class="col-sm-2 col-form-label">Content</label>
+            <input type="text" name="content" class="form_control">
+        </div>
+        <input type="submit" class="btn btn-primary" name="Post Secret" value="Post Secret">
+    </form>
+</div>
+<% end %>
+<div class="container">
+    <h2>Dojo Secrets</h2>
+    <table class="table table-hover">
+        <thead>
+            <th>Content</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            <% @secrets.each do |secret| %>
+            <tr>
+                <td class="col-sm-2"><%=secret.content%></td>
+                <td><% if @likes.any? {|like| like.secret_id ==secret.id}%>
+                        <a href="/users/<%= @user.id %>/secrets/<%=secret.id%>/unlike" class="btn btn-primary">Unlike</a>
+                    <% else %>
+                        <a href="/users/<%= @user.id %>/secrets/<%=secret.id%>/like" class="btn btn-primary">Like</a>
+                    <% end %>
+                    <!-- If the session user is the one that wrote the post, add a delete button -->
+                    <% if secret.user_id == @user.id %>
+                    <a href="/users/<%= @user.id %>/secrets/<%=secret.id%>/destroy" class="btn btn-primary">Delete</a>
+                    <% end %>
+                </td>
+
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

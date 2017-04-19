@@ -1,0 +1,58 @@
+<% content_for :left_column do %>
+<h1>New User</h1>
+
+<%if flash[:errors] %>
+    <%flash[:errors].each do |error| %>
+        <p class="alert alert-danger"><%= error %></p>
+    <% end %>
+<% end %>
+
+<div class="container">
+    <form action="/sessions/register" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Name</label>
+                <input type="text" name="user[name]" class="form_control">
+        </div>
+        <div class="form-group row">
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <input type="text" name="user[email]" class="form_control">
+        </div>
+        <div class="form-group row">
+            <label for="password" class="col-sm-2 col-form-label">Password</label>
+            <input type="password" name="user[password]" class="form_control">
+        </div>
+        <div class="form-group row">
+            <label for="password_confirmation" class="col-sm-2 col-form-label">Confirm Password</label>
+            <input type="password" name="user[password_confirmation]" class="form_control">
+        </div>
+        <input type="submit" class="btn btn-primary" name="Create User" value="Create User">
+    </form>
+</div>
+
+<% end %>
+
+
+<% content_for :right_column do %>
+
+<h1>User Login</h1>
+<%if flash[:login_errors] %>
+    <%flash[:login_errors].each do |error| %>
+        <p class="alert alert-danger"><%= error %></p>
+    <% end %>
+<% end %>
+<div class="container">
+    <form action="/sessions/login" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <div class="form-group row">
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <input type="text" name="email" class="form_control">
+        </div>
+        <div class="form-group row">
+            <label for="password" class="col-sm-2 col-form-label">Password</label>
+            <input type="password" name="password" class="form_control">
+        </div>
+        <input type="submit" class="btn btn-primary" name="User Login" value="Login">
+    </form>
+</div>
+<% end %>

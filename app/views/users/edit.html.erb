@@ -1,0 +1,31 @@
+<h1>Editing <%=@user.name%>'s Information</h1>
+<a href="/sessions/logout" class="btn btn-primary">Logout</a>
+<a href="/users/<%=@user.id%>/destroy" class="btn btn-primary">Delete User</a>
+
+<%if flash[:errors] %>
+    <%flash[:errors].each do |error| %>
+        <p class="alert alert-danger"><%= error %></p>
+    <% end %>
+<% end %>
+<h3>Update User Information</h3>
+<form action="/users/<%=@user.id%>/destroy" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <div class="form-group row">
+        <label for="name" class="col-sm-2 col-form-label">Name</label>
+            <input type="text" name="user[name]" class="form_control" value = "<%= @user[:name] %>">
+    </div>
+    <div class="form-group row">
+        <label for="email" class="col-sm-2 col-form-label">Email</label>
+        <input type="text" name="user[email]" class="form_control" value = "<%= @user[:email] %>">
+    </div>
+    <div class="form-group row">
+        <label for="password" class="col-sm-2 col-form-label">Password</label>
+        <input type="password" name="user[password]" class="form_control">
+    </div>
+    <div class="form-group row">
+        <label for="password_confirmation" class="col-sm-2 col-form-label">Confirm Password</label>
+        <input type="password" name="user[password_confirmation]" class="form_control">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Update User">
+
+</form>
